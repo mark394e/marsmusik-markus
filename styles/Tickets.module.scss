@@ -13,8 +13,10 @@
   }
 }
 
-
-
+.disabledShowCamping {
+  opacity: 0.3;
+  pointer-events: none;
+}
 
 .ticketholder > h3 {
   padding-top: 2rem;

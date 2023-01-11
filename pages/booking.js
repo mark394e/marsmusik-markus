@@ -1,4 +1,3 @@
-import { useState } from "react";
 import BookingSite from "../components/BookingSite";
 
 function booking() {

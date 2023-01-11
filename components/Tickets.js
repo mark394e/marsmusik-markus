@@ -33,6 +33,11 @@ function Tickets(props) {
     );
   });
 
+  // fjerner disabledBtn klassen fra continueBtn hvis der er valgt en eller flere billetter.
+  if (ticketAmount > 0) {
+    document.querySelector(".continueBtn").classList.remove("disabledShowCamping");
+  }
+
   function sendExtras() {
     console.log("does this run???");
     props.setExtras([
@@ -60,7 +65,10 @@ function Tickets(props) {
           {/* showCamping state sættes til true for at få vist campingspots. 
           Knappen fjernes når statet ikke længere er false */}
           {!props.showCamping && (
-            <button onClick={() => props.setShowCamping(true)} className="continueBtn">
+            <button
+              onClick={() => props.setShowCamping(true)}
+              className="continueBtn disabledShowCamping"
+            >
               Continue
             </button>
           )}
