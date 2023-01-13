@@ -8,7 +8,7 @@ import "../styles/BookingSite.module.scss";
 import ThankYouSite from "./ThankYouSite";
 
 function BookingSite() {
-  const [pickedCamping, setPickedCamping] = useState("");
+  const [pickedCamping, setPickedCamping] = useState(null);
   const [ticketHolders, setTicketHolders] = useState([]);
   const [extras, setExtras] = useState([]);
   const [counterVIP, setCounterVIP] = useState(0);
@@ -52,8 +52,6 @@ function BookingSite() {
       setShowBasket(false);
     }
   }, [counterVIP, counterREG]);
-
-  console.log(extras);
 
   return (
     <>

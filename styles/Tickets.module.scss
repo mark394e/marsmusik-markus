@@ -13,7 +13,9 @@
   }
 }
 
-.disabledShowCamping {
+.disabledShowCamping,
+.disabledShowPayment,
+.disabledShowTicketholders {
   opacity: 0.3;
   pointer-events: none;
 }

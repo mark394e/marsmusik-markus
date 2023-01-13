@@ -1,3 +1,4 @@
+import { useState } from "react";
 import TicketType from "./TicketType";
 import Campingspot from "./Campingspot";
 import TicketHolderREG from "./TicketHolderREG";
@@ -7,9 +8,23 @@ import "../styles/Campingspot.module.scss";
 import Extras from "./Extras";
 
 function Tickets(props) {
-  // her plusser vi den vaælgte mængde af reg biletter med vip billetter for at få en samlet billet mængde
-  // - det skal bla. bruges til at tjekke om der er nok ledige camping spots
   const ticketAmount = props.counterREG + props.counterVIP;
+
+  const [sentTickets, setSentTickets] = useState(null);
+
+  // fjerner disabledShowCamping-class fra continueBtn hvis der er valgt en eller flere billetter.
+  if (ticketAmount > 0) {
+    document.querySelector(".continueBtn").classList.remove("disabledShowCamping");
+  }
+
+  // fjerner disabledShowPayment-class fra continueBtn hvis antallet af billet stemmer overens med antallet af afsendte ticketholders.
+  if (sentTickets === ticketAmount) {
+    document.querySelector(".continueBtn").classList.remove("disabledShowPayment");
+  }
+
+  if (props.pickedCamping != null) {
+    document.querySelector(".continueBtn").classList.remove("disabledShowTicketholders");
+  }
 
   const ticketholdersREG = Array.from({ length: props.counterREG }, (_, index) => {
     return (
@@ -18,6 +33,8 @@ function Tickets(props) {
         ticketHolderArr={props.ticketHolderArr}
         ticketHolders={props.ticketHolders}
         setTicketHolders={props.setTicketHolders}
+        sentTickets={sentTickets}
+        setSentTickets={setSentTickets}
       ></TicketHolderREG>
     );
   });
@@ -29,17 +46,13 @@ function Tickets(props) {
         ticketHolderArr={props.ticketHolderArr}
         ticketHolders={props.ticketHolders}
         setTicketHolders={props.setTicketHolders}
+        sentTickets={sentTickets}
+        setSentTickets={setSentTickets}
       ></TicketHolderVIP>
     );
   });
 
-  // fjerner disabledBtn klassen fra continueBtn hvis der er valgt en eller flere billetter.
-  if (ticketAmount > 0) {
-    document.querySelector(".continueBtn").classList.remove("disabledShowCamping");
-  }
-
   function sendExtras() {
-    console.log("does this run???");
     props.setExtras([
       {
         greencamping: props.counterGreenCamp,
@@ -55,15 +68,12 @@ function Tickets(props) {
       <section className="around">
         <div className="ticketholder">
           <h3>Select your tickets</h3>
-          {/* sender data videre ind i component */}
           <TicketType
             setCounterVIP={props.setCounterVIP}
             setCounterREG={props.setCounterREG}
             counterREG={props.counterREG}
             counterVIP={props.counterVIP}
           ></TicketType>
-          {/* showCamping state sættes til true for at få vist campingspots. 
-          Knappen fjernes når statet ikke længere er false */}
           {!props.showCamping && (
             <button
               onClick={() => props.setShowCamping(true)}
@@ -73,8 +83,6 @@ function Tickets(props) {
             </button>
           )}
           <div className="camping-wrapper">
-            {/*  */}
-            {/* det her skal forklares bedre !!! */}
             {props.showCamping && (
               <>
                 <h3>Pick a campingsite</h3>
@@ -116,13 +124,11 @@ function Tickets(props) {
               </>
             )}
           </div>
-          {/* knap der får besked på at vise ticketholder når der trykkes på den */}
           {props.showCamping && !props.showTicketHolder && (
-            <button onClick={sendExtras} className="continueBtn">
+            <button onClick={sendExtras} className="continueBtn disabledShowTicketholders">
               Continue
             </button>
           )}
-          {/* hvad sker der herunder ???? */}
           {props.showTicketHolder ? (
             <>
               <h3>Please fill out each ticketholder</h3>
@@ -130,7 +136,10 @@ function Tickets(props) {
             </>
           ) : null}
           {props.showTicketHolder && !props.showPaymentForm && (
-            <button onClick={() => props.setShowPaymentForm(true)} className="continueBtn">
+            <button
+              onClick={() => props.setShowPaymentForm(true)}
+              className="continueBtn disabledShowPayment"
+            >
               Continue
             </button>
           )}

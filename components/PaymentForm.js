@@ -34,7 +34,6 @@ function PaymentForm(props) {
   //til numbers og til at hoppe videre til næste felt hvis de skal det
   function inputChange(e) {
     if (e.target.value.length == e.target.maxLength) {
-      console.log("something ");
       e.target.parentElement.nextElementSibling.firstElementChild.focus();
     }
     const { value } = e.target;

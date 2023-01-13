@@ -4,9 +4,9 @@ import { useState } from "react";
 
 function TicketHolderREG(props) {
   const ticketHolderForm = useRef(null);
+  const [txt, setTxt] = useState("");
   //giver besked "thank you" når der trykket submit på knap
   const [sent, setSent] = useState(false);
-  const [txt, setTxt] = useState("");
 
   function submit(e) {
     e.preventDefault();
@@ -19,6 +19,7 @@ function TicketHolderREG(props) {
       },
     ]);
     setSent(true);
+    props.setSentTickets((current) => current + 1);
   }
 
   if (sent) {
@@ -35,7 +36,6 @@ function TicketHolderREG(props) {
   // validate name
   const onInputChange = (e) => {
     const { value } = e.target;
-    console.log("Input value: ", value);
 
     const re = /^[A-ø a-ø]+$/;
     if (value === "" || re.test(value)) {
