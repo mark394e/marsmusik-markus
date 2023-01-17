@@ -33,7 +33,7 @@ function Tickets(props) {
     }
   }, [ticketAmount, sentTickets, props.pickedCamping]);
 
-  const ticketholdersREG = Array.from({ length: props.counterREG }, (_, index) => {
+  const ticketholdersREG = Array.from({ length: props.counterREG }, (element, index) => {
     return (
       <TicketHolderREG
         key={index}
@@ -46,7 +46,7 @@ function Tickets(props) {
     );
   });
 
-  const ticketholdersVIP = Array.from({ length: props.counterVIP }, (_, index) => {
+  const ticketholdersVIP = Array.from({ length: props.counterVIP }, (element, index) => {
     return (
       <TicketHolderVIP
         key={index}
