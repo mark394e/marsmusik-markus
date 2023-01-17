@@ -22,6 +22,7 @@ function Tickets(props) {
     document.querySelector(".continueBtn").classList.remove("disabledShowPayment");
   }
 
+  // fjerner disabledShowTicketholders-class fra continueBtn hvis pickedCamping-state ikke længere er "null"
   if (props.pickedCamping != null) {
     document.querySelector(".continueBtn").classList.remove("disabledShowTicketholders");
   }
