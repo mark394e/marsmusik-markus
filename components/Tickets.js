@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TicketType from "./TicketType";
 import Campingspot from "./Campingspot";
 import TicketHolderREG from "./TicketHolderREG";
@@ -12,20 +12,26 @@ function Tickets(props) {
 
   const [sentTickets, setSentTickets] = useState(null);
 
-  // fjerner disabledShowCamping-class fra continueBtn hvis der er valgt en eller flere billetter.
-  if (ticketAmount > 0) {
-    document.querySelector(".continueBtn").classList.remove("disabledShowCamping");
-  }
+  useEffect(() => {
+    // fjerner disabledShowCamping-class fra continueBtn hvis der er valgt en eller flere billetter.
+    if (ticketAmount > 0) {
+      document.querySelector(".continueBtn").classList.remove("disabledShowCamping");
+    } else if (ticketAmount == 0) {
+      document.querySelector(".continueBtn").classList.add("disabledShowCamping");
+      document.querySelector(".continueBtn").classList.remove("disabledShowPayment");
+      document.querySelector(".continueBtn").classList.remove("disabledShowTicketholders");
+    }
 
-  // fjerner disabledShowPayment-class fra continueBtn hvis antallet af billet stemmer overens med antallet af afsendte ticketholders.
-  if (sentTickets === ticketAmount) {
-    document.querySelector(".continueBtn").classList.remove("disabledShowPayment");
-  }
+    // fjerner disabledShowPayment-class fra continueBtn hvis antallet af billetter stemmer overens med antallet af afsendte ticketholders.
+    if (sentTickets === ticketAmount) {
+      document.querySelector(".continueBtn").classList.remove("disabledShowPayment");
+    }
 
-  // fjerner disabledShowTicketholders-class fra continueBtn hvis pickedCamping-state ikke længere er "null"
-  if (props.pickedCamping != null) {
-    document.querySelector(".continueBtn").classList.remove("disabledShowTicketholders");
-  }
+    // fjerner disabledShowTicketholders-class fra continueBtn hvis pickedCamping-state ikke længere er "null"
+    if (props.pickedCamping != null) {
+      document.querySelector(".continueBtn").classList.remove("disabledShowTicketholders");
+    }
+  }, [ticketAmount, sentTickets, props.pickedCamping]);
 
   const ticketholdersREG = Array.from({ length: props.counterREG }, (_, index) => {
     return (
