@@ -1,5 +1,6 @@
 import configData from "../config.json";
 
+// sender brugerens ordre til vores database
 export function insertOrder(payload) {
   const key =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlZmxkbWFmd3Boa2N3aGx6anphIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjY1OTg3NjIsImV4cCI6MTk4MjE3NDc2Mn0.l3sYxXCkSkt9TbAeza3b4hMi-tBgh0Gh1h0SMuvYzts";
@@ -23,6 +24,7 @@ export function insertOrder(payload) {
   console.log("insertOrder");
 }
 
+// fuldføre reservation ved at sende campingspot og antal billetter til vores back-end
 export function fullfillReservation(payload) {
   fetch(`${configData.url}/fullfill-reservation`, {
     method: "POST",
