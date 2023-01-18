@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/ThankYouSite.module.scss";
 import Anchor from "./Anchor";
-import Basket from "./Basket";
 
 function ThankYouSite(props) {
   return (

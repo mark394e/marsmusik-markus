@@ -8,6 +8,7 @@ import "../styles/Campingspot.module.scss";
 import Extras from "./Extras";
 
 function Tickets(props) {
+  // samlede antal billetter der er valgt
   const ticketAmount = props.counterREG + props.counterVIP;
 
   const [sentTickets, setSentTickets] = useState(null);
@@ -33,6 +34,7 @@ function Tickets(props) {
     }
   }, [ticketAmount, sentTickets, props.pickedCamping]);
 
+  // opretter et array med samme antal TicketholdersREG components som der er valgt Standard Tickets
   const ticketholdersREG = Array.from({ length: props.counterREG }, (element, index) => {
     return (
       <TicketHolderREG
@@ -46,6 +48,7 @@ function Tickets(props) {
     );
   });
 
+  // opretter et array med samme antal TicketholdersVIP components som der er valgt VIP Tickets
   const ticketholdersVIP = Array.from({ length: props.counterVIP }, (element, index) => {
     return (
       <TicketHolderVIP
@@ -59,6 +62,7 @@ function Tickets(props) {
     );
   });
 
+  // indsætter information omkring extras som state til setExtras
   function sendExtras() {
     props.setExtras([
       {
@@ -97,6 +101,7 @@ function Tickets(props) {
                   <span className="fat"> 99,-</span>for one area
                 </p>
                 <div className="campingspot-container">
+                  {/* opretter et component for hvert campingspot */}
                   {props.campingspot.map((spot) => (
                     <Campingspot
                       data={spot}
@@ -139,6 +144,7 @@ function Tickets(props) {
           {props.showTicketHolder ? (
             <>
               <h3>Please fill out each ticketholder</h3>
+              {/* her indsættes begge arrays med VIP og Standard components */}
               {ticketholdersVIP} {ticketholdersREG}
             </>
           ) : null}

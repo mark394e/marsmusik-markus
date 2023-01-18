@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/Extras.module.scss";
 
 function Extras(props) {
+  // funktioner der tæller op eller ned alt efter hvor mange extras man har valgt
   const increaseGreenCamp = () => {
     props.setCounterGreenCamp((count) => count + 1);
   };
@@ -119,11 +120,6 @@ function Extras(props) {
           </div>
         </div>
       </div>
-      {props.showExtras && !props.showPaymentForm && (
-        <button onClick={sendExtras} className="continueBtn">
-          Continue
-        </button>
-      )}
     </section>
   );
 }

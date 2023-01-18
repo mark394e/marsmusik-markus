@@ -5,11 +5,12 @@ import { useState } from "react";
 function TicketHolderVIP(props) {
   const ticketHolderForm = useRef(null);
   const [txt, setTxt] = useState("");
-  //giver besked "thank you" når der trykket submit på knap
   const [sent, setSent] = useState(false);
 
   function submit(e) {
     e.preventDefault();
+
+    // vi benytter spread-operator for at tilføje flere objekter til vores state-array
     props.setTicketHolders((current) => [
       ...current,
       {

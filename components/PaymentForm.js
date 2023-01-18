@@ -14,8 +14,10 @@ function PaymentForm(props) {
   const [cvv, setCvv] = useState("");
 
   function submit(e) {
+    // forhindre DOM'en i at genindlæses når der er klikket på submit
     e.preventDefault();
 
+    // klader funktionen insertOrder() med køber-information som parameter
     insertOrder({
       fullname: theForm.current.elements.fullname.value,
       email: theForm.current.elements.email.value,
@@ -27,6 +29,7 @@ function PaymentForm(props) {
       extras: props.extras,
     });
 
+    // kalder funktionen fullfillReservation() med reserverings-id'et som parameter
     fullfillReservation({ id: props.reserveID });
     props.setShowThankYou(true);
   }
@@ -38,6 +41,7 @@ function PaymentForm(props) {
     }
     const { value } = e.target;
 
+    // validering af inputfelterne cardnumber, month og year
     if (e.target.id === "cardnumber") {
       const re = /^[\d]+$/g;
       if (value === "" || re.test(value)) {
@@ -56,8 +60,7 @@ function PaymentForm(props) {
     }
   }
 
-  //denne kører functioner på de inputfelter der ikke skal hoppe aoutomatisk videre
-  //men som skal have en valudation på enten tal eller nummer
+  // validerer inputfelterne fullname, cardholder, zipcode og cvv uden at sende brugeren videre til næste felt
   function onInputChange(e) {
     const { value } = e.target;
 
@@ -242,8 +245,6 @@ function PaymentForm(props) {
           </div>
           <button className="submitBtn">book now</button>
         </form>
-
-        {/* <form className="forms"></form> */}
       </section>
     </>
   );

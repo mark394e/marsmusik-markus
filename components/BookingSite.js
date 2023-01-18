@@ -31,11 +31,13 @@ function BookingSite() {
 
   const [refreshPage, setRefreshPage] = useState(false);
 
+  // hvis refreshPage er true genindlæses siden og refreshPage sætte til false igen
   if (refreshPage) {
     window.location.reload(false);
     setRefreshPage(false);
   }
 
+  // henter data fra /available-spots endpoint én gang
   useEffect(() => {
     async function getData() {
       const res = await fetch(`${configData.url}/available-spots`);
@@ -45,6 +47,7 @@ function BookingSite() {
     getData();
   }, []);
 
+  // bestemmer om basket skal vises eller ej når der er valgt tickets
   useEffect(() => {
     if (counterVIP || counterREG > 0) {
       setShowBasket(true);
@@ -67,7 +70,6 @@ function BookingSite() {
             more comfortable.
           </h3>
           <Tickets
-            // her henter fortæller vi hvilket data de forskellige components skal hente ind så de kan bruges
             setCounterVIP={setCounterVIP}
             setCounterREG={setCounterREG}
             counterREG={counterREG}
@@ -100,9 +102,7 @@ function BookingSite() {
             setExtras={setExtras}
             showPaymentForm={showPaymentForm}
           ></Tickets>
-          {/* her færtæller vi hvad der skal vises når der trykkes på button  */}
-          {/* hvad betyder &&?? */}
-
+          {/* hvis showPaymentForm er true skal PaymentForm vises */}
           {showPaymentForm && (
             <PaymentForm
               ticketHolders={ticketHolders}

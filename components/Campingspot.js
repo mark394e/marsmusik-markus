@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect } from "react";
 import "../styles/Campingspot.module.scss";
 import configData from "../config.json";
 import { Roboto } from "@next/font/google";
@@ -14,17 +14,12 @@ const roboto = Roboto({
 function Campingspot(props) {
   const ref = useRef(null);
 
-  // vi bruger useeffect så vi kun henter data når det er nødvndigt (så det ikke looper unødvsndigt meget)
+  // vi bruger useeffect så vi kun henter data én gang. Det forhindre React i at lave et infinite loop af re-renders.
   useEffect(() => {
-    // hvad betyder ref.current???
     const campingspot = ref.current;
 
-    // her siger vi at hvis tallet avilible indeholder et mindre tal end den valgte billet mængde
-    // - så skal den vise fullybooked og ellers skal den fjerne fullybooked
-    if (
-      props.data.available < props.ticketAmount ||
-      props.data.available <= 0
-    ) {
+    // Hvis værdien af available-spots er mindre end antallet af valgte billetter skal fullybooked-klassen tilføjes.
+    if (props.data.available < props.ticketAmount || props.data.available <= 0) {
       campingspot.classList.add("fullybooked");
       campingspot.style.pointerEvents = "none";
     } else {
@@ -34,18 +29,22 @@ function Campingspot(props) {
   });
 
   function clickedCamping() {
-    // this.style.backgroundColor = "blue";
     ref.current.classList.add("pickedCamping");
     props.setPickedCamping(props.data.area);
     props.setShowPickedCamping(true);
+
+    // kalder funktionen reserveSpot() med campingspot-area og antal billetter som parameter
     reserveSpot({
       area: props.data.area,
       amount: props.ticketAmount,
     });
+
+    // sætter tiden på timeren til at være 300000ms (5min) fra nu (Date.now()).
     props.setTimer(Date.now() + 300000);
     props.setShowTimer(true);
   }
 
+  // sender en PUT-request til vores back-end der sender et reservations-id tilbage
   function reserveSpot(payload) {
     fetch(`${configData.url}/reserve-spot`, {
       method: "PUT",
@@ -55,6 +54,7 @@ function Campingspot(props) {
       body: JSON.stringify(payload),
     })
       .then((response) => response.json())
+      // gemmer id'et (repsonse) i et state
       .then((response) => props.setReserveID(response.id))
       .catch((err) => console.error(err));
   }
@@ -71,7 +71,6 @@ function Campingspot(props) {
                   fontFamily: `${shrikhand.style.fontFamily}`,
                   fontSize: "0.9rem",
                 }}
-                // className={roboto.className}
               >
                 {props.data.area}
               </h3>
